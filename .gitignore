@@ -6,3 +6,12 @@ build/
 
 # editor config
 .vscode/
+/.vs
+/.vs
+/.vs
+*.ipch
+*.ipch
+*.db
+*.opendb
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
