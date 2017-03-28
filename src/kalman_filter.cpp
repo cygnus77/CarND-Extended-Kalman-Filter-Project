@@ -56,7 +56,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   TODO:
     * update the state by using Extended Kalman Filter equations
   */
-
+	if (x_(0) == 0) return;
 	// y = z - h(x')
 	VectorXd y = z - Tools::RadarMeasurementFunction(x_);
 
