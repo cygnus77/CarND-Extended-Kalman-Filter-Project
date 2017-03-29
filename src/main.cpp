@@ -23,11 +23,14 @@ void check_arguments(int argc, char* argv[]) {
   // make sure the user has provided input and output files
   if (argc == 1) {
     cerr << usage_instructions << endl;
-  } else if (argc == 2) {
+  }
+  else if (argc == 2) {
     cerr << "Please include an output file.\n" << usage_instructions << endl;
-  } else if (argc == 3) {
+  }
+  else if (argc == 3) {
     has_valid_args = true;
-  } else if (argc > 3) {
+  }
+  else if (argc > 3) {
     cerr << "Too many arguments.\n" << usage_instructions << endl;
   }
 
@@ -37,7 +40,7 @@ void check_arguments(int argc, char* argv[]) {
 }
 
 void check_files(ifstream& in_file, string& in_name,
-                 ofstream& out_file, string& out_name) {
+  ofstream& out_file, string& out_name) {
   if (!in_file.is_open()) {
     cerr << "Cannot open input file: " << in_name << endl;
     exit(EXIT_FAILURE);
@@ -92,7 +95,8 @@ int main(int argc, char* argv[]) {
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
-    } else if (sensor_type.compare("R") == 0) {
+    }
+    else if (sensor_type.compare("R") == 0) {
       // RADAR MEASUREMENT
 
       // read measurements at this timestamp
@@ -139,20 +143,22 @@ int main(int argc, char* argv[]) {
     fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
 
     // output the estimation
-    out_file_ << fusionEKF.ekf_.x_(0) << "\t";
-    out_file_ << fusionEKF.ekf_.x_(1) << "\t";
-    out_file_ << fusionEKF.ekf_.x_(2) << "\t";
-    out_file_ << fusionEKF.ekf_.x_(3) << "\t";
+    VectorXd estimate = fusionEKF.getEstimate();
+    out_file_ << estimate(0) << "\t";
+    out_file_ << estimate(1) << "\t";
+    out_file_ << estimate(2) << "\t";
+    out_file_ << estimate(3) << "\t";
 
     // output the measurements
     if (measurement_pack_list[k].sensor_type_ == MeasurementPackage::LASER) {
       // output the estimation
       out_file_ << measurement_pack_list[k].raw_measurements_(0) << "\t";
       out_file_ << measurement_pack_list[k].raw_measurements_(1) << "\t";
-    } else if (measurement_pack_list[k].sensor_type_ == MeasurementPackage::RADAR) {
+    }
+    else if (measurement_pack_list[k].sensor_type_ == MeasurementPackage::RADAR) {
       // output the estimation in the cartesian coordinates
-      float ro = measurement_pack_list[k].raw_measurements_(0);
-      float phi = measurement_pack_list[k].raw_measurements_(1);
+      double ro = measurement_pack_list[k].raw_measurements_(0);
+      double phi = measurement_pack_list[k].raw_measurements_(1);
       out_file_ << ro * cos(phi) << "\t"; // p1_meas
       out_file_ << ro * sin(phi) << "\t"; // ps_meas
     }
@@ -163,7 +169,7 @@ int main(int argc, char* argv[]) {
     out_file_ << gt_pack_list[k].gt_values_(2) << "\t";
     out_file_ << gt_pack_list[k].gt_values_(3) << "\n";
 
-    estimations.push_back(fusionEKF.ekf_.x_);
+    estimations.push_back(estimate);
     ground_truth.push_back(gt_pack_list[k].gt_values_);
   }
 

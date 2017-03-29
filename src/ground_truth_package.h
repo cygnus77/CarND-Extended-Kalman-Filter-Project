@@ -7,7 +7,7 @@ class GroundTruthPackage {
 public:
   long timestamp_;
 
-  enum SensorType{
+  enum SensorType {
     LASER,
     RADAR
   } sensor_type_;
