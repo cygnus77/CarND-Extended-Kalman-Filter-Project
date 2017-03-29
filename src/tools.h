@@ -19,12 +19,12 @@ public:
   /**
   * A helper method to map cartesian state (px,py,vx,vy) to radar's polar space (rho, phi, rhodot)
   */
-  static Eigen::VectorXd Tools::RadarMeasurementFunction(const Eigen::VectorXd &x_state);
+  static Eigen::VectorXd RadarMeasurementFunction(const Eigen::VectorXd &x_state);
 
   /**
   * A helper function to map radar's polar space (rho, phi, rhodot) back to cartesian space (px,py,vx,vy)
   */
-  static Eigen::VectorXd Tools::RadarToCartesian(const Eigen::VectorXd &z);
+  static Eigen::VectorXd RadarToCartesian(const Eigen::VectorXd &z);
 
 };
 
