@@ -63,6 +63,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   // y = z - h(x')
   VectorXd y = z - Tools::RadarMeasurementFunction(x_);
+  while (y(1) < -M_PI)
+    y(1) += M_PI;
+  while (y(1) > M_PI)
+    y(1) -= M_PI;
 
   MatrixXd Hj = Tools::CalculateJacobian(x_);
   MatrixXd Hjt = Hj.transpose();

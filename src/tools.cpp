@@ -62,7 +62,7 @@ VectorXd Tools::RadarMeasurementFunction(const VectorXd &x_state) {
   float vy = x_state(3);
 
   float rho = sqrt(px*px + py*py);
-  float phi = atan(py / px);
+  float phi = atan2(py, px);
   float rhodot = (px*vx + py*vy) / rho;
 
   VectorXd result = VectorXd(3);
